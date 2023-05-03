@@ -8,6 +8,7 @@
 #include"LTexture.h"
 #include"gameplay.h"
 #include"board.h"
+
 using namespace std;
 const int SCREEN_WIDTH = 750;
 const int SCREEN_HEIGHT = 750;
@@ -34,26 +35,26 @@ const int PALETTE_SIZE =15;
 const int palette[PALETTE_SIZE][3]= {
                                         {0xFA, 0xEB, 0xD7},
                                         {0xFF, 0xE4, 0xC4},
-                                        {0xFF, 0xD7, 0x0},
+                                        {0xFF, 0xD7, 0x0 },
                                         {0xFF, 0x7F, 0x50},
                                         {0xDC, 0x14, 0x3C},
-                                        {0x0, 0xFF, 0xFF},
+                                        {0x0 , 0xFF, 0xFF},
                                         {0x1E, 0x90, 0xFF},
                                         {0xAD, 0xFF, 0x2F},
-                                        {0x7C, 0xFC, 0x0},
+                                        {0x7C, 0xFC, 0x0 },
                                         {0xBA, 0x55, 0xD3},
                                         {0x93, 0x70, 0xDB},
                                         {0x3C, 0xB3, 0x71},
-                                        {0x0, 0xFA, 0x9A},
+                                        {0x0 , 0xFA, 0x9A},
                                         {0xFD, 0xF5, 0xE6},
                                         {0xFF, 0xFA, 0xFA},
 };
 
 const int emptyCol[3] =     {0x96, 0x8C, 0x82};
-const int boardCol[3] =     {150,150,150};
+const int boardCol[3] =     {0x96, 0x96, 0x96};
 const int bgCol[3] =        {0x2F, 0x25, 0x1C};
 const int menuCol[3] =      {0xB6, 0xAC, 0xA2};
-const int bannerCol[3] =    {0xEF, 0xEF, 0xAA};
+const int gameoverCol[3] =  {0x0 , 0xFF, 0xFF};
 const SDL_Color titleColor ={0xFF,0xFF,0xFF,0xFF};
 const SDL_Color overColor = {0x8F,0x8f,0x10,0xFF};
 
@@ -130,8 +131,8 @@ bool loadMedia(){
 		!scoreTitle.loadFromRenderedText(renderer, gFont, "SCORE", titleColor ) ||
 		!bestTitle.loadFromRenderedText(renderer,gFont, "BEST", titleColor) )
 		{
-		printf("Could not render font\n");
-		success = false;
+            printf("Could not render font\n");
+            success = false;
 		}
     success = success && updateBest();
     return success;
@@ -247,7 +248,7 @@ void renderBoard(Board gameBoard){
 	SDL_RenderPresent(renderer);
 }
 void displayGameOver(){
-	SDL_SetRenderDrawColor( renderer, bannerCol[0], bannerCol[1], bannerCol[2], 255);
+	SDL_SetRenderDrawColor( renderer, gameoverCol[0], gameoverCol[1], gameoverCol[2], 0xFF);
 	SDL_Rect drawRect = {0, SCREEN_HEIGHT/2 - 60, SCREEN_WIDTH, 120};
 	SDL_RenderFillRect(renderer, &drawRect);
 	Gameover.render(renderer, SCREEN_WIDTH/2 - 130, SCREEN_HEIGHT/2 - 30, 260, 60);
@@ -309,6 +310,7 @@ int main( int argc, char* args[] ){
 						updateBest();
 						move = NO_MOVE;
 						gameBoard.init();
+						break;
 				}
 			}
 		}
@@ -334,4 +336,5 @@ int main( int argc, char* args[] ){
 	close();
 	return 0;
 }
+
 
